@@ -6,6 +6,28 @@
     <title>todo list</title>
   </head>
   <body>
-    <h1>todo list</h1>
+    <div id="app">
+      <h1>todo list</h1>
+      <h2>your tasks</h2>
+
+      <input type="text" placeholder="Task title" />
+      <button>Add task</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th>Priority</th>
+            <th>Completed</th>
+            <th>Notes</th>
+            <th>Checklist</th>
+            <th>Delete</th>
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody id="tasks"></tbody>
+      </table>
+    </div>
   </body>
 </html>
