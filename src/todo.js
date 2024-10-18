@@ -1,6 +1,7 @@
+import { storage } from "./storage";
 import { dom } from "./dom";
 export const todo = (function () {
-  let tasks = [];
+  let tasks = storage.loadTasks();
   const createTask = function (
     title,
     description = "",
@@ -31,6 +32,7 @@ export const todo = (function () {
   };
   const addTask = function (task) {
     tasks.push(task);
+    storage.saveTasks(tasks);
   };
   const getTasks = function () {
     return tasks;
