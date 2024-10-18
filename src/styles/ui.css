@@ -1,0 +1,7 @@
+* {
+  outline: red 1px solid;
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}

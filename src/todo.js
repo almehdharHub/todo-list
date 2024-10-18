@@ -1,12 +1,17 @@
 import { dom } from "./dom";
 export const todo = (function () {
   let tasks = [];
-  const createTask = function (title, description, dueDate, priority) {
+  const createTask = function (
+    title,
+    description = "",
+    dueDate = "",
+    priority
+  ) {
     return {
       title,
-      description: "",
-      dueDate: "",
-      priority: 4,
+      description,
+      dueDate,
+      priority,
       isCompleted: false,
       notes: [],
       checklist: [],

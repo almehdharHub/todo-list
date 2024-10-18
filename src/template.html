@@ -6,28 +6,80 @@
     <title>todo list</title>
   </head>
   <body>
-    <div id="app">
-      <h1>todo list</h1>
-      <h2>your tasks</h2>
-
-      <input type="text" placeholder="Task title" />
-      <button>Add task</button>
-      <table>
-        <thead>
-          <tr>
-            <th>Task</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Priority</th>
-            <th>Completed</th>
-            <th>Notes</th>
-            <th>Checklist</th>
-            <th>Delete</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody id="tasks"></tbody>
-      </table>
+    <div id="container">
+      <aside>
+        <h3>Todo list</h3>
+        <ul id="nav">
+          <li id="inbox">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <title>inbox</title>
+              <path
+                d="M19,15H15A3,3 0 0,1 12,18A3,3 0 0,1 9,15H5V5H19M19,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z"
+              />
+            </svg>
+            <p>Inbox</p>
+          </li>
+          <li id="today">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <title>calendar-today</title>
+              <path
+                d="M7,10H12V15H7M19,19H5V8H19M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z"
+              />
+            </svg>
+            <p>Today</p>
+          </li>
+        </ul>
+        <h3>Projects</h3>
+        <ul>
+          <li>
+            <span> &num;</span>
+            <p>Mind</p>
+          </li>
+          <li>
+            <span> &num;</span>
+            <p>Body</p>
+          </li>
+          <li>
+            <span> &num;</span>
+            <p>Soal</p>
+          </li>
+        </ul>
+      </aside>
+      <main>
+        <h1>Todo list app</h1>
+        <h2 id="page-title">Inbox</h2>
+        <button id="new-task">New task</button>
+        <div id="form">
+          <form>
+            <h3>Add new task</h3>
+            <button type="submit">Add Task</button>
+            <button id="cancel">Cancel</button>
+            <input type="text" name="" id="title" placeholder="Title" />
+            <input
+              type="text"
+              name=""
+              id="description"
+              placeholder="Description"
+            />
+            <label for="due-date">Due date: </label>
+            <input
+              type="text"
+              placeholder="Due date"
+              id="due-date"
+              onfocus="(this.type='date')"
+              onblur="(this.type='text')"
+            />
+            <select name="" id="priority" required>
+              <option value="1">Priority 1</option>
+              <option value="2">Priority 2</option>
+              <option value="3">Priority 3</option>
+              <option value="4" selected>Priority 4</option>
+            </select>
+            <br />
+          </form>
+        </div>
+        <div id="tasks"></div>
+      </main>
     </div>
   </body>
 </html>
