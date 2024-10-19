@@ -1,4 +1,5 @@
 import { todo } from "./todo";
+import { storage } from "./storage";
 export const dom = (function () {
   console.log(tasks);
   const renderTasksList = function () {
@@ -7,17 +8,105 @@ export const dom = (function () {
     tasksList.innerHTML = "";
     tasks.forEach((task, index) => {
       tasksList.innerHTML += `<div class="task">
-       <span>${task.title}</span>
-       <button class="delete" data-index=${index}>delete</button>
+       <h4>${task.title}</h4>
+       <p>Due Date: ${task.dueDate}</p>
+       <p>Priority: ${task.priority}</p>
+      <button data-index="${index}" class="edit-task">Edit</button>
+      <button data-index="${index}" class="toggle-completion">${
+        task.isCompleted ? "Mark Incomplete" : "Mark Complete"
+      }</button>
+      <button data-index="${index}" class="delete-task">Delete</button>
        </div>
        `;
     });
 
-    const deleteButtons = document.querySelectorAll(".delete");
+    const editButtons = document.querySelectorAll(".edit-task");
+    editButtons.forEach((button) => {
+      button.addEventListener("click", editTask);
+    });
+
+    const toggleCompletionButtons =
+      document.querySelectorAll(".toggle-completion");
+    toggleCompletionButtons.forEach((button) => {
+      button.addEventListener("click", toggleTaskCompletion);
+    });
+    const deleteButtons = document.querySelectorAll(".delete-task");
+
     deleteButtons.forEach((button) => {
-      button.addEventListener("click", todo.deleteTask);
+      button.addEventListener("click", deleteTask);
     });
   };
+
+  const toggleTaskCompletion = function (e) {
+    const index = e.target.getAttribute("data-index");
+    const task = todo.getTasks()[index];
+    console.log("Toggling Completion for Task:", task); // Debug log
+
+    if (task && typeof task.toggleIsCompleted === "function") {
+      task.toggleIsCompleted();
+    } else {
+      console.error("toggleIsCompleted method not found on task", task);
+    }
+    renderTasksList();
+  };
+
+  const editTask = function (e) {
+    const index = e.target.getAttribute("data-index");
+    const task = todo.getTasks()[index];
+
+    const originalValues = {
+      title: task.title,
+      description: task.description,
+      dueDate: task.dueDate,
+      priority: task.priority,
+    };
+
+    // Pre-fill dialog with task details or placeholders
+    const titleElem = document.getElementById("edit-title");
+    const descriptionElem = document.getElementById("edit-description");
+    titleElem.innerText = task.title || titleElem.getAttribute("placeholder");
+    descriptionElem.innerText =
+      task.description || descriptionElem.getAttribute("placeholder");
+    document.getElementById("edit-due-date").value = task.dueDate;
+    document.getElementById("edit-priority").value = task.priority;
+
+    const modal = document.getElementById("dialog");
+    modal.showModal();
+
+    const saveBtn = document.getElementById("save-task");
+    const cancelBtn = document.getElementById("cancel-task");
+
+    saveBtn.onclick = function () {
+      task.title = titleElem.innerText;
+      task.description = descriptionElem.innerText;
+      task.dueDate = document.getElementById("edit-due-date").value;
+      task.priority = document.getElementById("edit-priority").value;
+
+      storage.saveTasks(todo.getTasks());
+      renderTasksList();
+      modal.close();
+    };
+
+    cancelBtn.onclick = function () {
+      // Revert to original values
+      titleElem.innerText = originalValues.title;
+      descriptionElem.innerText = originalValues.description;
+      document.getElementById("edit-due-date").value = originalValues.dueDate;
+      document.getElementById("edit-priority").value = originalValues.priority;
+      modal.close();
+    };
+
+    const closeButton = document.getElementById("close-modal");
+    closeButton.addEventListener("click", function () {
+      modal.close();
+    });
+  };
+  const deleteTask = function (e) {
+    const index = e.target.getAttribute("data-index");
+    todo.deleteTask(index);
+    renderTasksList();
+  };
+
   document.getElementById("new-task").addEventListener("click", function () {
     document.getElementById("form").style.display = "block";
     document.getElementById("new-task").style.display = "none";

@@ -1,35 +1,9 @@
+import { createTask } from "./task-factory";
 import { storage } from "./storage";
 import { dom } from "./dom";
 export const todo = (function () {
   let tasks = storage.loadTasks();
-  const createTask = function (
-    title,
-    description = "",
-    dueDate = "",
-    priority
-  ) {
-    return {
-      title,
-      description,
-      dueDate,
-      priority,
-      isCompleted: false,
-      notes: [],
-      checklist: [],
-      toggleIsCompleted() {
-        this.isCompleted = !this.isCompleted;
-      },
-      addNote(note) {
-        this.notes.push(note);
-      },
-      addChecklistItem(item) {
-        this.checklist.push({ description: item, done: false });
-      },
-      toggleChecklistItem(index) {
-        this.checklist[index].done = !this.checklist[index].done;
-      },
-    };
-  };
+
   const addTask = function (task) {
     tasks.push(task);
     storage.saveTasks(tasks);
@@ -37,10 +11,10 @@ export const todo = (function () {
   const getTasks = function () {
     return tasks;
   };
-  const deleteTask = function (e) {
-    const index = e.target.getAttribute("data-index");
+  const deleteTask = function (index) {
     tasks.splice(index, 1);
     dom.renderTasksList();
+    storage.saveTasks(tasks);
   };
   const displayTasks = function () {
     const tasks = getTasks();

@@ -1,5 +1,7 @@
 import "./style.css";
-import { todo } from "./todo";
 import { dom } from "./dom";
+// localStorage.removeItem("tasks"); // Clear tasks for testing
 
-dom.renderTasksList();
+document.addEventListener("DOMContentLoaded", () => {
+  dom.renderTasksList();
+});
