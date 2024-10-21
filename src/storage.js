@@ -1,20 +1,8 @@
-import { createTask } from "./task-factory";
+import { taskFactory } from "./task-factory";
 
 export const storage = (function () {
   const saveTasks = function (tasks) {
-    // Debug log to see tasks being saved
-    console.log("Saving tasks:", tasks);
-    console.log(tasks);
-    const plainTasks = tasks.map((task) => ({
-      title: task.title,
-      description: task.description,
-      dueDate: task.dueDate,
-      priority: task.priority,
-      isCompleted: task.isCompleted,
-      notes: task.notes,
-      checklist: task.checklist,
-    }));
-    localStorage.setItem("tasks", JSON.stringify(plainTasks));
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   };
 
   const loadTasks = function () {
@@ -36,13 +24,9 @@ export const storage = (function () {
 
     console.log("Parsed loaded data:", storedTasks); // Debug log for parsed data
 
-    if (!Array.isArray(storedTasks)) {
-      console.error("Stored tasks is not an array:", storedTasks);
-      return [];
-    }
     // return storedTasks;
-    return storedTasks.map((task) =>
-      createTask(
+    return storedTasks.tasks.map((task) =>
+      taskFactory.createTask(
         task.title,
         task.description,
         task.dueDate,

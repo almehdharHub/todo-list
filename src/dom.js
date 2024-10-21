@@ -1,21 +1,23 @@
 import { todo } from "./todo";
 import { storage } from "./storage";
+import { taskFactory } from "./task-factory";
 export const dom = (function () {
   console.log(tasks);
   const renderTasksList = function () {
     let tasksList = document.getElementById("tasks");
     let tasks = todo.getTasks();
+    console.log(tasks);
     tasksList.innerHTML = "";
     tasks.forEach((task, index) => {
       tasksList.innerHTML += `<div class="task">
        <h4>${task.title}</h4>
-       <p>Due Date: ${task.dueDate}</p>
-       <p>Priority: ${task.priority}</p>
+       <div>
       <button data-index="${index}" class="edit-task">Edit</button>
       <button data-index="${index}" class="toggle-completion">${
         task.isCompleted ? "Mark Incomplete" : "Mark Complete"
       }</button>
       <button data-index="${index}" class="delete-task">Delete</button>
+      </div>
        </div>
        `;
     });
@@ -124,7 +126,7 @@ export const dom = (function () {
     const priority = document.getElementById("priority").value;
     console.log(title, description, dueDate, priority);
 
-    const task = todo.createTask(title, description, dueDate, priority);
+    const task = taskFactory.createTask(title, description, dueDate, priority);
     todo.addTask(task);
     renderTasksList();
 

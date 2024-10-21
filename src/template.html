@@ -7,7 +7,7 @@
   </head>
   <body>
     <div id="container">
-      <aside>
+      <aside id="sidebar">
         <h3>Todo list</h3>
         <ul id="nav">
           <li id="inbox">
@@ -29,37 +29,35 @@
             <p>Today</p>
           </li>
         </ul>
-        <h3>Projects</h3>
-        <ul>
-          <li>
-            <span> &num;</span>
-            <p>Mind</p>
-          </li>
-          <li>
-            <span> &num;</span>
-            <p>Body</p>
-          </li>
-          <li>
-            <span> &num;</span>
-            <p>Soal</p>
-          </li>
-        </ul>
+        <div class="projects">
+          <h3>Projects</h3>
+          <ul id="project-list"></ul>
+        </div>
       </aside>
-      <main>
+      <main id="main">
         <h1>Todo list app</h1>
         <h2 id="page-title">Inbox</h2>
+
         <button id="new-task">New task</button>
         <div id="form">
           <form>
             <h3>Add new task</h3>
             <button type="submit">Add Task</button>
             <button id="cancel">Cancel</button>
-            <input type="text" name="" id="title" placeholder="Title" />
+            <input
+              type="text"
+              name=""
+              id="title"
+              placeholder="Title"
+              autocomplete="off"
+              required
+            />
             <input
               type="text"
               name=""
               id="description"
               placeholder="Description"
+              autocomplete="off"
             />
             <label for="due-date">Due date: </label>
             <input
@@ -85,7 +83,7 @@
               <span id="close-modal">&times;</span>
             </header>
             <main>
-              <h2>Edit Task</h2>
+              <h2>Task Details</h2>
               <div class="edit">
                 <div
                   id="edit-title"
@@ -102,10 +100,11 @@
               </div>
 
               <button id="save-task">Save</button>
-              <button id="cancel-task">Cancel</button>
+              <button id="cancel-task" autofocus>Cancel</button>
             </main>
             <aside>
               <div class="edit">
+                <p>Due date</p>
                 <input
                   type="text"
                   placeholder="Due date"

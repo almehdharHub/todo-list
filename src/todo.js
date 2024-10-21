@@ -1,34 +1,30 @@
-import { createTask } from "./task-factory";
 import { storage } from "./storage";
 import { dom } from "./dom";
+import { taskFactory } from "./task-factory";
 export const todo = (function () {
-  let tasks = storage.loadTasks();
+  const inbox = taskFactory.createProject("inbox");
+  inbox.tasks = storage.loadTasks();
+  console.log(inbox);
+  function addTask(task) {
+    inbox.tasks.push(task);
+    console.log("inbox", inbox);
+    storage.saveTasks(inbox);
+  }
 
-  const addTask = function (task) {
-    tasks.push(task);
-    storage.saveTasks(tasks);
-  };
   const getTasks = function () {
-    return tasks;
+    console.log(inbox);
+    console.log("inbox tasks", inbox.tasks);
+    return inbox.tasks;
   };
   const deleteTask = function (index) {
-    tasks.splice(index, 1);
+    inbox.tasks.splice(index, 1);
     dom.renderTasksList();
     storage.saveTasks(tasks);
   };
-  const displayTasks = function () {
-    const tasks = getTasks();
-    let tasksTitles = "";
-    for (let task of tasks) {
-      tasksTitles += `${task.title}\n`;
-    }
-    console.log(tasksTitles);
-  };
+
   return {
-    createTask,
     addTask,
     getTasks,
-    displayTasks,
     deleteTask,
   };
 })();
