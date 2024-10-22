@@ -21,6 +21,7 @@ body {
   flex-direction: column;
   padding: 10px;
   width: 20vw;
+  overflow-y: scroll;
 }
 
 ul {
@@ -103,7 +104,13 @@ button:hover {
   background-color: lightgray;
   color: black;
 }
-
+#project-name-display {
+  cursor: default;
+  background-color: white;
+  color: black;
+  position: relative;
+  bottom: 35px;
+}
 svg {
   width: 20px;
   height: 20px;
@@ -167,4 +174,23 @@ svg {
   align-self: flex-end;
   font-size: 30px;
   cursor: pointer;
+}
+
+#project-form {
+  display: none;
+}
+/* 
+#projects-list {
+} */
+#projects-list li {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+}
+.project-name {
+  width: 100%;
+  display: flex;
+  /* align-items: ; */
 }

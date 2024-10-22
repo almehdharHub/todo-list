@@ -3,6 +3,7 @@ import { taskFactory } from "./task-factory";
 export const storage = (function () {
   const saveTasks = function (tasks) {
     localStorage.setItem("tasks", JSON.stringify(tasks));
+    // localStorage.clear(); // Clear tasks for testing
   };
 
   const loadTasks = function () {
@@ -23,19 +24,23 @@ export const storage = (function () {
     }
 
     console.log("Parsed loaded data:", storedTasks); // Debug log for parsed data
-
+    if (!Array.isArray(storedTasks)) {
+      return [];
+    }
     // return storedTasks;
-    return storedTasks.tasks.map((task) =>
-      taskFactory.createTask(
-        task.title,
-        task.description,
-        task.dueDate,
-        task.priority,
-        task.isCompleted,
-        task.notes,
-        task.checklist
-      )
-    );
+    return storedTasks.map((obj) => {
+      return {
+        name: obj.name,
+        tasks: obj.tasks.map((task) => {
+          return taskFactory.createTask(
+            task.title,
+            task.description,
+            task.dueDate,
+            task.priority
+          );
+        }),
+      };
+    });
   };
 
   return { saveTasks, loadTasks };

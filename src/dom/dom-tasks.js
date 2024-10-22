@@ -1,21 +1,25 @@
-import { todo } from "./todo";
-import { storage } from "./storage";
-import { taskFactory } from "./task-factory";
-export const dom = (function () {
-  console.log(tasks);
-  const renderTasksList = function () {
+import { todo } from "../todo";
+import { taskFactory } from "../task-factory";
+import { storage } from "../storage";
+export const domTasks = (function () {
+  let projectIndex = document
+    .getElementById("page-title")
+    .getAttribute("data-project-index");
+  const renderTasksList = function (tasks) {
     let tasksList = document.getElementById("tasks");
-    let tasks = todo.getTasks();
-    console.log(tasks);
     tasksList.innerHTML = "";
+
     tasks.forEach((task, index) => {
       tasksList.innerHTML += `<div class="task">
        <h4>${task.title}</h4>
-       <div>
-      <button data-index="${index}" class="edit-task">Edit</button>
-      <button data-index="${index}" class="toggle-completion">${
+       <p>${task.dueDate === "" ? "No due date" : task.dueDate}</p>
+       <p>priority: ${task.priority}</p>
+       <button data-index="${index}" class="toggle-completion">${
         task.isCompleted ? "Mark Incomplete" : "Mark Complete"
       }</button>
+       
+       <div>
+      <button data-index="${index}" class="edit-task">Edit</button>
       <button data-index="${index}" class="delete-task">Delete</button>
       </div>
        </div>
@@ -37,11 +41,14 @@ export const dom = (function () {
     deleteButtons.forEach((button) => {
       button.addEventListener("click", deleteTask);
     });
+    storage.saveTasks(todo.getAllTasks());
   };
-
   const toggleTaskCompletion = function (e) {
+    projectIndex = document
+      .getElementById("page-title")
+      .getAttribute("data-project-index");
     const index = e.target.getAttribute("data-index");
-    const task = todo.getTasks()[index];
+    const task = todo.getTasks(projectIndex)[index];
     console.log("Toggling Completion for Task:", task); // Debug log
 
     if (task && typeof task.toggleIsCompleted === "function") {
@@ -49,12 +56,15 @@ export const dom = (function () {
     } else {
       console.error("toggleIsCompleted method not found on task", task);
     }
-    renderTasksList();
+    renderTasksList(todo.getTasks(projectIndex));
   };
 
   const editTask = function (e) {
+    projectIndex = document
+      .getElementById("page-title")
+      .getAttribute("data-project-index");
     const index = e.target.getAttribute("data-index");
-    const task = todo.getTasks()[index];
+    const task = todo.getTasks(projectIndex)[index];
 
     const originalValues = {
       title: task.title,
@@ -84,8 +94,7 @@ export const dom = (function () {
       task.dueDate = document.getElementById("edit-due-date").value;
       task.priority = document.getElementById("edit-priority").value;
 
-      storage.saveTasks(todo.getTasks());
-      renderTasksList();
+      renderTasksList(todo.getTasks(projectIndex));
       modal.close();
     };
 
@@ -104,43 +113,44 @@ export const dom = (function () {
     });
   };
   const deleteTask = function (e) {
+    projectIndex = document
+      .getElementById("page-title")
+      .getAttribute("data-project-index");
     const index = e.target.getAttribute("data-index");
-    todo.deleteTask(index);
-    renderTasksList();
+    todo.deleteTask(index, projectIndex);
+    renderTasksList(todo.getTasks(projectIndex));
   };
-
-  document.getElementById("new-task").addEventListener("click", function () {
+  const OpenNewTaskFormBtn = document.getElementById("new-task");
+  OpenNewTaskFormBtn.addEventListener("click", function () {
     document.getElementById("form").style.display = "block";
     document.getElementById("new-task").style.display = "none";
   });
-  document.getElementById("cancel").addEventListener("click", function () {
+  const cancelNewTaskFormBtn = document.getElementById("cancel");
+  cancelNewTaskFormBtn.addEventListener("click", function () {
     document.getElementById("form").style.display = "none";
     document.getElementById("new-task").style.display = "block";
+    document.getElementById("title").value = "";
   });
-  document.querySelector("form").addEventListener("submit", function (e) {
+  const addTaskForm = document.getElementById("add-task");
+  addTaskForm.addEventListener("submit", function (e) {
     e.preventDefault();
+    projectIndex = document
+      .getElementById("page-title")
+      .getAttribute("data-project-index");
 
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
     const dueDate = document.getElementById("due-date").value;
     const priority = document.getElementById("priority").value;
     console.log(title, description, dueDate, priority);
-
+    console.log(projectIndex);
     const task = taskFactory.createTask(title, description, dueDate, priority);
-    todo.addTask(task);
-    renderTasksList();
 
-    document.querySelector("form").reset();
-  });
-  document.getElementById("inbox").addEventListener("click", function () {
-    document.getElementById("page-title").textContent = "Inbox";
-  });
-  document.getElementById("today").addEventListener("click", function () {
-    document.getElementById("page-title").textContent = "Today";
-  });
+    todo.addTask(task, projectIndex);
+    renderTasksList(todo.getTasks(projectIndex));
 
-  console.log("dom");
-
+    addTaskForm.reset();
+  });
   return {
     renderTasksList,
   };

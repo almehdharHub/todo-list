@@ -10,40 +10,51 @@
       <aside id="sidebar">
         <h3>Todo list</h3>
         <ul id="nav">
-          <li id="inbox">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <li class="project" id="inbox" data-project-index="0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              data-project-index="0"
+            >
               <title>inbox</title>
               <path
+                data-project-index="0"
                 d="M19,15H15A3,3 0 0,1 12,18A3,3 0 0,1 9,15H5V5H19M19,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z"
               />
             </svg>
-            <p>Inbox</p>
-          </li>
-          <li id="today">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <title>calendar-today</title>
-              <path
-                d="M7,10H12V15H7M19,19H5V8H19M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z"
-              />
-            </svg>
-            <p>Today</p>
+            <p data-project-index="0">Inbox</p>
           </li>
         </ul>
         <div class="projects">
           <h3>Projects</h3>
-          <ul id="project-list"></ul>
+          <button id="add-project">Add project</button>
+          <form id="project-form">
+            <input
+              type="text"
+              name="project-name"
+              id="project-name"
+              placeholder="New project"
+              autocomplete="off"
+              required
+            />
+            <button type="submit">Add</button>
+            <button type="button" id="cancel-project">Cancel</button>
+          </form>
+          <ul id="projects-list"></ul>
         </div>
       </aside>
       <main id="main">
         <h1>Todo list app</h1>
-        <h2 id="page-title">Inbox</h2>
+        <h2 id="page-title" data-project-index="0">Inbox</h2>
 
         <button id="new-task">New task</button>
         <div id="form">
-          <form>
+          <form id="add-task">
             <h3>Add new task</h3>
             <button type="submit">Add Task</button>
-            <button id="cancel">Cancel</button>
+            <button type="button" id="cancel">Cancel</button>
+            <button id="project-name-display" disabled>Inbox</button>
+
             <input
               type="text"
               name=""

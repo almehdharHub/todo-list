@@ -12,23 +12,21 @@ export const taskFactory = (function () {
       checklist: [],
       toggleIsCompleted() {
         console.log("Toggling Completion for Task:", this);
-        console.log("Tasks before toggle:", todo.getTasks());
         this.isCompleted = !this.isCompleted;
         console.log("Toggled Completion for Task:", this);
-        console.log("Tasks after toggle:", todo.getTasks());
-        storage.saveTasks(todo.getTasks());
+        storage.saveTasks(todo.getAllTasks());
       },
       addNote(note) {
         this.notes.push(note);
-        storage.saveTasks(todo.getTasks());
+        storage.saveTasks(todo.getAllTasks());
       },
       addChecklistItem(item) {
         this.checklist.push({ description: item, done: false });
-        storage.saveTasks(todo.getTasks());
+        storage.saveTasks(todo.getAllTasks());
       },
       toggleChecklistItem(index) {
         this.checklist[index].done = !this.checklist[index].done;
-        storage.saveTasks(todo.getTasks());
+        storage.saveTasks(todo.getAllTasks());
       },
     };
   }

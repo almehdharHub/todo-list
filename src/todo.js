@@ -1,30 +1,55 @@
 import { storage } from "./storage";
-import { dom } from "./dom";
+import { dom, domProjects } from "./dom/dom-projects";
 import { taskFactory } from "./task-factory";
+import { domTasks } from "./dom/dom-tasks";
 export const todo = (function () {
-  const inbox = taskFactory.createProject("inbox");
-  inbox.tasks = storage.loadTasks();
-  console.log(inbox);
-  function addTask(task) {
-    inbox.tasks.push(task);
+  const tasks = storage.loadTasks();
+
+  function addProject(project) {
+    tasks.push(project);
+    console.log(tasks);
+    storage.saveTasks(tasks);
+  }
+  function getProjectsNames() {
+    return tasks.map((task) => task.name);
+  }
+  function getProject(projectIndex) {
+    console.log(tasks[projectIndex]);
+    console.log(tasks[0]);
+    return tasks[projectIndex];
+  }
+  function deleteProject(index) {
+    tasks.splice(index, 1);
+    storage.saveTasks(tasks);
+    console.log("tasks", tasks);
+  }
+  function addTask(task, projectIndex) {
     console.log("inbox", inbox);
-    storage.saveTasks(inbox);
+    tasks[projectIndex].tasks.push(task);
+    storage.saveTasks(tasks);
+  }
+  const getTasks = function (projectIndex) {
+    console.log(projectIndex);
+    return tasks[projectIndex].tasks;
+  };
+  function getAllTasks() {
+    return tasks;
   }
 
-  const getTasks = function () {
-    console.log(inbox);
-    console.log("inbox tasks", inbox.tasks);
-    return inbox.tasks;
-  };
-  const deleteTask = function (index) {
-    inbox.tasks.splice(index, 1);
-    dom.renderTasksList();
+  const deleteTask = function (index, projectIndex) {
+    tasks[projectIndex].tasks.splice(index, 1);
+
     storage.saveTasks(tasks);
   };
 
   return {
     addTask,
     getTasks,
+    getAllTasks,
     deleteTask,
+    addProject,
+    getProjects: getProjectsNames,
+    deleteProject,
+    getProject,
   };
 })();
