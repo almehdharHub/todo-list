@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo list</title>
+  <script defer src="main.js"></script></head>
+  <body>
+    <div id="container">
+      <aside id="sidebar">
+        <h3>Todo list</h3>
+        <ul id="nav">
+          <li class="project" id="inbox" data-project-index="0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              data-project-index="0"
+            >
+              <title>inbox</title>
+              <path
+                data-project-index="0"
+                d="M19,15H15A3,3 0 0,1 12,18A3,3 0 0,1 9,15H5V5H19M19,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z"
+              />
+            </svg>
+            <p data-project-index="0">Inbox</p>
+          </li>
+        </ul>
+        <div class="projects">
+          <h3>Projects</h3>
+          <button id="add-project">Add project</button>
+          <form id="project-form">
+            <input
+              type="text"
+              name="project-name"
+              id="project-name"
+              placeholder="New project"
+              autocomplete="off"
+              required
+            />
+            <button type="submit">Add</button>
+            <button type="button" id="cancel-project">Cancel</button>
+          </form>
+          <ul id="projects-list"></ul>
+        </div>
+      </aside>
+      <main id="main">
+        <h1>Todo list app</h1>
+        <h2 id="page-title" data-project-index="0">Inbox</h2>
+
+        <button id="new-task">New task</button>
+        <div id="form">
+          <form id="add-task">
+            <h3>Add new task</h3>
+            <button type="submit">Add Task</button>
+            <button type="button" id="cancel">Cancel</button>
+            <button id="project-name-display" disabled>Inbox</button>
+
+            <input
+              type="text"
+              name=""
+              id="title"
+              placeholder="Title"
+              autocomplete="off"
+              required
+            />
+            <input
+              type="text"
+              name=""
+              id="description"
+              placeholder="Description"
+              autocomplete="off"
+            />
+            <label for="due-date">Due date: </label>
+            <input
+              type="text"
+              placeholder="Due date"
+              id="due-date"
+              onfocus="(this.type='date')"
+              onblur="(this.type='text')"
+            />
+            <select name="" id="priority" required>
+              <option value="1">Priority 1</option>
+              <option value="2">Priority 2</option>
+              <option value="3">Priority 3</option>
+              <option value="4" selected>Priority 4</option>
+            </select>
+            <br />
+          </form>
+        </div>
+        <div id="tasks"></div>
+        <dialog id="dialog">
+          <div id="modal-content">
+            <header>
+              <span id="close-modal">&times;</span>
+            </header>
+            <main>
+              <h2>Task Details</h2>
+              <div class="edit">
+                <div
+                  id="edit-title"
+                  contenteditable="true"
+                  data-placeholder="Task Title"
+                ></div>
+              </div>
+              <div class="edit">
+                <div
+                  id="edit-description"
+                  contenteditable="true"
+                  data-placeholder="Task Description"
+                ></div>
+              </div>
+
+              <button id="save-task">Save</button>
+              <button id="cancel-task" autofocus>Cancel</button>
+            </main>
+            <aside>
+              <div class="edit">
+                <p>Due date</p>
+                <input
+                  type="text"
+                  placeholder="Due date"
+                  id="edit-due-date"
+                  onfocus="(this.type='date')"
+                  onblur="(this.type='text')"
+                />
+              </div>
+              <div class="edit">
+                <select id="edit-priority">
+                  <option value="1">priority 1</option>
+                  <option value="2">priority 2</option>
+                  <option value="3">priority 3</option>
+                  <option value="4">priority 4</option>
+                </select>
+              </div>
+            </aside>
+          </div>
+        </dialog>
+      </main>
+    </div>
+  </body>
+</html>
